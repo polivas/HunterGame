@@ -50,7 +50,7 @@ namespace GameHunter
 
         public BirdSprite(float radius , Body body)
         {
-            this.body.OnCollision += CollisionHandler;
+          //  this.body.OnCollision += CollisionHandler;
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace GameHunter
         public void Draw(GameTime gametime, SpriteBatch spriteBatch)
         {
             //Check if collides
-            Color color = (Colliding) ? Color.Green : Color.White;
+           // Color color = (Colliding) ? Color.Green : Color.White;
 
             //Update animation Timer
             animationTimer += gametime.ElapsedGameTime.TotalSeconds;
@@ -91,7 +91,7 @@ namespace GameHunter
             if (animationTimer > 0.3)
             {
                 animationFrame++;
-                if (animationFrame > 3) animationFrame = 1;
+                if (animationFrame > 2) animationFrame = 0;
                 animationTimer -= 0.3;
             }
 

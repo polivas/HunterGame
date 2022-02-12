@@ -6,7 +6,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using tainicom.Aether.Physics2D.Dynamics;
-
+using tainicom.Aether.Physics2D.Collision;
+using tainicom.Aether.Physics2D.Common;
 
 namespace GameHunter
 {
@@ -16,7 +17,7 @@ namespace GameHunter
         private SpriteBatch spriteBatch;
 
 
-        private Texture2D forestBackground;
+        private BackgroundBuilder background;
 
 
         //        private BirdSprite[] birds;
@@ -31,16 +32,22 @@ namespace GameHunter
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = false;
+
+            //Grabbing Game constants
             graphics.PreferredBackBufferWidth = Constants.GAME_WIDTH;
             graphics.PreferredBackBufferHeight = Constants.GAME_HEIGHT;
+
             graphics.ApplyChanges();
         }
 
         protected override void Initialize()
         {
-            world = new World();
 
-           // world.Gravity = Vector2.Zero;
+            background = new BackgroundBuilder();
+
+            //World Creation
+            world = new World();
+            world.Gravity = Vector2.Zero;
 
             var top = 0;
             var bottom = Constants.GAME_HEIGHT;
@@ -60,10 +67,10 @@ namespace GameHunter
                 edge.SetRestitution(1.0f);
             }
 
+            //Spawn 5 Birds
             System.Random random = new System.Random();
             birds = new List<BirdSprite>();
-
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 1; i++)
             {
                 var radius = random.Next(1,3);
                 var position = new Vector2(
@@ -75,8 +82,8 @@ namespace GameHunter
                 var body = world.CreateCircle(radius, 1, position, BodyType.Dynamic);
 
                 body.LinearVelocity = new Vector2(
-                    random.Next(-50, 50),
-                    random.Next(-50, 50)
+                    random.Next(-10, 10),
+                    random.Next(-10, 10)
                     );
 
                 body.SetRestitution(1);
@@ -90,7 +97,8 @@ namespace GameHunter
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            background.LoadContent(Content);
+            
             foreach (var birds in birds) birds.LoadContent(Content);
 
         }
@@ -111,7 +119,9 @@ namespace GameHunter
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            //Getting sprite batch
             spriteBatch.Begin();
+            background.Draw(gameTime, spriteBatch);
 
             foreach (var bird in birds) bird.Draw(gameTime, spriteBatch);
 
