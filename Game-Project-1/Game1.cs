@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using tainicom.Aether.Physics2D.Dynamics;
-using tainicom.Aether.Physics2D.Dynamics.Contacts;
+
 
 namespace GameHunter
 {
@@ -21,7 +21,6 @@ namespace GameHunter
 
         //        private BirdSprite[] birds;
         private List<BirdSprite> birds;
-
         private World world;
 
 
@@ -32,7 +31,6 @@ namespace GameHunter
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = false;
-
             graphics.PreferredBackBufferWidth = Constants.GAME_WIDTH;
             graphics.PreferredBackBufferHeight = Constants.GAME_HEIGHT;
             graphics.ApplyChanges();
@@ -42,7 +40,7 @@ namespace GameHunter
         {
             world = new World();
 
-            world.Gravity = Vector2.Zero;
+           // world.Gravity = Vector2.Zero;
 
             var top = 0;
             var bottom = Constants.GAME_HEIGHT;
@@ -65,9 +63,9 @@ namespace GameHunter
             System.Random random = new System.Random();
             birds = new List<BirdSprite>();
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 5; i++)
             {
-                var radius = random.Next(5, 50);
+                var radius = random.Next(1,3);
                 var position = new Vector2(
                     random.Next(radius, Constants.GAME_WIDTH - radius),
                     random.Next(radius, Constants.GAME_HEIGHT - radius)
@@ -85,10 +83,6 @@ namespace GameHunter
                 body.AngularVelocity = (float)random.NextDouble() * MathHelper.Pi - MathHelper.PiOver2;
                 birds.Add(new BirdSprite(radius, body));
             }
-
-
-
-
 
             base.Initialize();
         }
@@ -118,7 +112,10 @@ namespace GameHunter
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            world.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
+
+            foreach (var bird in birds) bird.Draw(gameTime, spriteBatch);
+
+            // world.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
             spriteBatch.End();
 
             base.Draw(gameTime);

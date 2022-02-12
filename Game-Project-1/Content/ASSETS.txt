@@ -1,0 +1,8 @@
+﻿Content/Arrow.png - created by Randalinski  of OpenGameArt.org (https://opengameart.org/content/rotating-arrow-projectile) and is under the public domain
+Content/bird_3_spawarrow.png - created by bluecarrot16 of OpenGameArt.org (https://opengameart.org/content/lpc-birds) and released under CC-BY-SA 4.0 (https://creativecommons.org/licenses/by/4.0/), CC-BY 3.0(https://creativecommons.org/licenses/by/3.0/), CC-BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/), CC-BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0/), GPL 3.0 (http://www.gnu.org/licenses/gpl-3.0.html), GPL 2.0 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html), OGA-BY 3.0 (https://opengameart.org/content/oga-by-30-faq)
+Content/forest_tiles.png - created by surt of OpenGameArt.org (https://opengameart.org/content/forest-tiles) and was released under the public domain 
+
+Content/Walk Down Ranger.png  - created by dpod41 of OpenGameArt.org (https://creativecommons.org/licenses/by/3.0/) and licensed under CC-BY 3,0
+Content/Ranger Walk Up.png  - created by dpod41 of OpenGameArt.org (https://creativecommons.org/licenses/by/3.0/) and licensed under CC-BY 3,0
+Content/ Shoot Up and Down.png   - created by dpod41 of OpenGameArt.org (https://creativecommons.org/licenses/by/3.0/) and licensed under CC-BY 3,0
+
