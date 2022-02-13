@@ -37,7 +37,7 @@ namespace GameHunter
         public BirdDirection Direction;
 
         /// <summary>
-        /// poition of the bird
+        /// position of the bird
         /// </summary>
         public Vector2 Position;
 
@@ -83,9 +83,6 @@ namespace GameHunter
         {
 
 
-            //Check if collides
-             Color color = (Colliding) ? Color.Green : Color.White;
-
             if (Colliding == false && dead == false)
             {
                 //Update animation Timer
@@ -102,8 +99,7 @@ namespace GameHunter
                 //Draw the sprite
                 var source = new Rectangle(animationFrame * 32, (int)Direction * 32, 32, 32);
 
-                // spriteBatch.Draw(texture, Position, source, Color.White);
-                spriteBatch.Draw(texture, body.Position, source, color, 0f, origin, scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(texture, body.Position, source, Color.White, 0f, origin, scale, SpriteEffects.None, 0);
 
             }
         }

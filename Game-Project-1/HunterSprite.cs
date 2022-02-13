@@ -26,13 +26,9 @@ namespace GameHunter
     public class HunterSprite
     {       
         private KeyboardState keyboardState;
-
         private Texture2D texture; 
         private Texture2D textureUp;
         private Texture2D textureDown;
-
-        //Animation Stuff
-        public  bool Flipped;
         private bool pressing = false;
         private double animationTimer;
         private short animationFrame = 0;
@@ -46,6 +42,12 @@ namespace GameHunter
         /// poition of the hunter
         /// </summary>
         public Vector2 Position;
+
+        /// <summary>
+        /// Checks if the hunter is flipped, to flip the drawn sprite
+        /// </summary>
+        public bool Flipped;
+
 
         public HunterSprite(Vector2 position)
         {

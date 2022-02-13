@@ -14,22 +14,13 @@ namespace GameHunter
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-
-
         private BackgroundBuilder background;
         private List<BirdSprite> birds;
         private HunterSprite hunter;
         private SwordSprite sword;
 
 
-
-
-        private Vector2 arrowPos;
-
         private World world;
-
-
-
 
         public Game1()
         {
@@ -44,6 +35,9 @@ namespace GameHunter
             graphics.ApplyChanges();
         }
 
+        /// <summary>
+        /// Initilizes game
+        /// </summary>
         protected override void Initialize()
         {
             System.Random rand = new System.Random();
@@ -76,7 +70,7 @@ namespace GameHunter
             //Spawn Birds/Bodies
             System.Random random = new System.Random();
             birds = new List<BirdSprite>();
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 8; i++)
             {
                 var radius = random.Next(1, 5);
                 var position = new Vector2(
@@ -97,26 +91,24 @@ namespace GameHunter
                 birds.Add(new BirdSprite(radius, body));
             }
 
-            //Spawn hunter
+            //Spawn hunter in random location on map
             Vector2 pos = (new Vector2((float)rand.NextDouble() * GraphicsDevice.Viewport.Width, (float)rand.NextDouble() * GraphicsDevice.Viewport.Height));
-
             hunter = new HunterSprite(pos);
 
-            //Spawn Arrow into world
 
-            //var arrowBody = world.CreateRectangle(23, 6, 1,new Vector2(-10,-10),0, BodyType.Dynamic);//check back
+            var swordBody = world.CreateRectangle(25, 30, 1, (pos - (new Vector2(0, 35))), 0, BodyType.Dynamic);//check back
+            swordBody.LinearVelocity = new Vector2(0, 0);
+            swordBody.AngularVelocity = (float)0;
+            swordBody.SetRestitution(1);
 
-
-            var arrowBody = world.CreateRectangle(23, 6, 1, (pos - (new Vector2(0, 35))), 0, BodyType.Dynamic);//check back
-            arrowBody.LinearVelocity = new Vector2(0, 0);
-            arrowBody.AngularVelocity = (float)0;
-            arrowBody.SetRestitution(1);
-
-            sword = new SwordSprite(pos - (new Vector2(0, 35)), arrowBody);
+            sword = new SwordSprite(pos - (new Vector2(0, 35)), swordBody);
 
             base.Initialize();
         }
 
+        /// <summary>
+        /// Loads and creates spritebatch needed
+        /// </summary>
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -129,6 +121,11 @@ namespace GameHunter
 
         }
 
+
+        /// <summary>
+        /// Updates sprites and their postions
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -148,6 +145,10 @@ namespace GameHunter
             base.Update(gameTime);
         }
 
+        /// <summary>
+        /// Draws the sprites
+        /// </summary>
+        /// <param name="gameTime">Current gametime</param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
