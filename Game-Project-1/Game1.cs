@@ -19,8 +19,8 @@ namespace GameHunter
         private BackgroundBuilder background;
         private List<BirdSprite> birds;
         private HunterSprite hunter;
-        //private ArrowSprite arrow;
-        private List<ArrowSprite> arrow;
+        private SwordSprite sword;
+
 
 
 
@@ -49,7 +49,7 @@ namespace GameHunter
             System.Random rand = new System.Random();
 
             background = new BackgroundBuilder();
-            
+
 
             //World Creation
             world = new World();
@@ -78,7 +78,7 @@ namespace GameHunter
             birds = new List<BirdSprite>();
             for (int i = 0; i < 5; i++)
             {
-                var radius = random.Next(1,5);
+                var radius = random.Next(1, 5);
                 var position = new Vector2(
                     random.Next(radius, Constants.GAME_WIDTH - radius),
                     random.Next(radius, Constants.GAME_HEIGHT - radius)
@@ -106,21 +106,13 @@ namespace GameHunter
 
             //var arrowBody = world.CreateRectangle(23, 6, 1,new Vector2(-10,-10),0, BodyType.Dynamic);//check back
 
-            arrow = new List<ArrowSprite>();
 
-            // 5 arrows into game
-            for (int i = 0; i < 5; i++)
-            {
+            var arrowBody = world.CreateRectangle(23, 6, 1, (pos - (new Vector2(0, 35))), 0, BodyType.Dynamic);//check back
+            arrowBody.LinearVelocity = new Vector2(0, 0);
+            arrowBody.AngularVelocity = (float)0;
+            arrowBody.SetRestitution(1);
 
-                var arrowBody = world.CreateRectangle(23, 6, 1,(pos - (new Vector2(0, 35))), 0, BodyType.Dynamic);//check back
-                arrowBody.LinearVelocity = new Vector2(0, 0);
-                arrowBody.AngularVelocity = (float)0;
-                arrowBody.SetRestitution(1);
-
-                arrow.Add(new ArrowSprite(pos - (new Vector2(0,35)), arrowBody));
-
-                // body.AngularVelocity = (float)random.NextDouble() * MathHelper.Pi - MathHelper.PiOver2;
-            }
+            sword = new SwordSprite(pos - (new Vector2(0, 35)), arrowBody);
 
             base.Initialize();
         }
@@ -131,7 +123,7 @@ namespace GameHunter
             background.LoadContent(Content);
 
             foreach (var birds in birds) birds.LoadContent(Content);
-            foreach (var arrows in arrow) arrows.LoadContent(Content);
+            sword.LoadContent(Content);
 
             hunter.LoadContent(Content);
 
@@ -144,11 +136,11 @@ namespace GameHunter
 
             foreach (var bird in birds) bird.Update(gameTime);
 
-            
+
             hunter.Update(gameTime);
 
 
-            foreach(var arrows in arrow) arrows.Update(gameTime, (hunter.Position - (new Vector2(10, 35))), hunter.Flipped);
+            sword.Update(gameTime, (hunter.Position - (new Vector2(15, 38))), hunter.Flipped);
 
 
             world.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
@@ -167,7 +159,7 @@ namespace GameHunter
             hunter.Draw(gameTime, spriteBatch);
 
 
-            foreach(var arrows in arrow) arrows.Draw(gameTime, spriteBatch);
+            sword.Draw(gameTime, spriteBatch);
 
             foreach (var bird in birds) bird.Draw(gameTime, spriteBatch);
 

@@ -30,7 +30,6 @@ namespace GameHunter
         private Texture2D texture; 
         private Texture2D textureUp;
         private Texture2D textureDown;
-        private Texture2D arrowTexture;
 
         //Animation Stuff
         public  bool Flipped;
@@ -63,7 +62,6 @@ namespace GameHunter
             texture = content.Load<Texture2D>("ranger");
             textureUp = content.Load<Texture2D>("Ranger Walk Up");
             textureDown = content.Load<Texture2D>("Walk Down Ranger");
-            arrowTexture = content.Load<Texture2D>("Arrow");
         }
 
 
@@ -107,15 +105,6 @@ namespace GameHunter
                 pressing = true;
             }
 
-            /*
-            if (keyboardState.IsKeyDown(Keys.Space) )
-            {
-                TextureMode = TextureMode.Shoot;
-                pressing = true;
-               
-                //arrowPosition = this.Position;
-                // arrowSprite.ShootArrow(arrowPosition, flipped);
-            }*/
         }
 
 
@@ -147,16 +136,6 @@ namespace GameHunter
 
             Texture2D currTexture = texture;
 
-            /*
-            if (TextureMode == TextureMode.Shoot)
-            {
-                
-                
-                spriteBatch.Draw(texture, Position, source, Color.White, 0f, new Vector2(32, 32), 1.5f, spriteEffects, 0);
-                // source = new Rectangle(32, 32, 32, 32);
-                // spriteBatch.Draw(currTexture, arrowPosition, source, Color.White, 0f, new Vector2(32, 32), 1.25f, spriteEffects, 0);
-            }
-            */
 
             if(TextureMode == TextureMode.Down && pressing)
             {
