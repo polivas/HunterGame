@@ -12,6 +12,8 @@ namespace GameHunter
 {
     public class ArrowSprite
     {
+        private KeyboardState keyboardState;
+
         private Texture2D texture;
         private double animationTimer;
         private short animationFrame = 0;
@@ -24,6 +26,8 @@ namespace GameHunter
 
         Vector2 origin;
         Body body;
+
+        private bool shot;
 
         public bool flipped;
         public Vector2 Position;
@@ -56,11 +60,46 @@ namespace GameHunter
         /// Updates the arrow shot pattern
         /// </summary>
         /// <param name="gameTime"></param>
-        public void Update(GameTime gameTime, Vector2 position, bool flipped)
+        public void Update(GameTime gameTime, Vector2 position)
         {
             Colliding = false;
+            if (keyboardState.IsKeyDown(Keys.Right)) flipped = false;
+            if (keyboardState.IsKeyDown(Keys.Left)) flipped = true;
+
+            if (keyboardState.IsKeyDown(Keys.Space))
+            {
+                this.body.LinearVelocity = new Vector2(0, 5);
+                this.body.AngularVelocity = (float) 1;
+                shot = true;
+            }
         }
 
+        public void Draw(GameTime gametime, SpriteBatch spriteBatch)
+        {
+            //Check if collides
+            Color color = (Colliding) ? Color.Green : Color.White;
+
+            //Update animation Timer
+            animationTimer += gametime.ElapsedGameTime.TotalSeconds;
+
+            if (animationTimer > 0.3)
+            {
+                animationFrame++;
+                if (animationFrame > 1) animationFrame = 0;
+                animationTimer -= 0.3;
+            }
+            if (animationTimer > 0.3) animationTimer -= 0.3;
+
+            var source = new Rectangle(animationFrame * 32, 0 , 32, 32);
+            SpriteEffects spriteEffects = (flipped) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+            if(shot == true)
+            {
+                spriteBatch.Draw(texture, Position, source, color, 0f, origin, scale, spriteEffects, 0);
+            }
+
+            spriteBatch.Draw(texture, Position, source, color, 0f, origin, scale, spriteEffects, 0);
+        }
 
         /// <summary>
         /// Is checking if it has collided with an object
@@ -71,8 +110,13 @@ namespace GameHunter
         /// <returns></returns>
         bool CollisionHandler(Fixture fixture, Fixture other, Contact contact)
         {
-            Colliding = true;
-            return true;
+            if(other.Body.BodyType == BodyType.Dynamic)
+            {
+                Colliding = true;
+                return true;
+            }
+
+            return false;
         }
     }
 }

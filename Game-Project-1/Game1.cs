@@ -19,11 +19,14 @@ namespace GameHunter
         private BackgroundBuilder background;
         private List<BirdSprite> birds;
         private HunterSprite hunter;
-        private ArrowSprite arrow;
+        //private ArrowSprite arrow;
+        private List<ArrowSprite> arrow;
 
         //Arrow stuff
-       // private Vector2 arrowPosition;
-        //private bool arrowFlipped;
+         private Vector2 arrowPosition;
+         private bool arrowFlipped;
+
+        private Vector2 arrowPos;
 
         private World world;
 
@@ -48,6 +51,7 @@ namespace GameHunter
             System.Random rand = new System.Random();
 
             background = new BackgroundBuilder();
+            
 
             //World Creation
             world = new World();
@@ -71,7 +75,7 @@ namespace GameHunter
                 edge.SetRestitution(1.0f);
             }
 
-            //Spawn Birds & Bodies
+            //Spawn Birds/Bodies
             System.Random random = new System.Random();
             birds = new List<BirdSprite>();
             for (int i = 0; i < 5; i++)
@@ -96,8 +100,29 @@ namespace GameHunter
             }
 
             //Spawn hunter
-            hunter = new HunterSprite(new Vector2((float)rand.NextDouble() * GraphicsDevice.Viewport.Width, (float)rand.NextDouble() * GraphicsDevice.Viewport.Height));
+            Vector2 pos = (new Vector2((float)rand.NextDouble() * GraphicsDevice.Viewport.Width, (float)rand.NextDouble() * GraphicsDevice.Viewport.Height));
 
+            hunter = new HunterSprite(pos);
+
+            //Spawn Arrow into world
+
+            //var arrowBody = world.CreateRectangle(23, 6, 1,new Vector2(-10,-10),0, BodyType.Dynamic);//check back
+
+            arrow = new List<ArrowSprite>();
+
+            // 5 arrows into game
+            for (int i = 0; i < 5; i++)
+            {
+
+                var arrowBody = world.CreateRectangle(23, 6, 1,(pos - (new Vector2(0, 35))), 0, BodyType.Dynamic);//check back
+                arrowBody.LinearVelocity = new Vector2(0, 0);
+                arrowBody.AngularVelocity = (float)0;
+                arrowBody.SetRestitution(1);
+
+                arrow.Add(new ArrowSprite(pos - (new Vector2(0,35)), arrowBody));
+
+                // body.AngularVelocity = (float)random.NextDouble() * MathHelper.Pi - MathHelper.PiOver2;
+            }
 
             base.Initialize();
         }
@@ -108,6 +133,7 @@ namespace GameHunter
             background.LoadContent(Content);
 
             foreach (var birds in birds) birds.LoadContent(Content);
+            foreach (var arrows in arrow) arrows.LoadContent(Content);
 
             hunter.LoadContent(Content);
 
@@ -121,13 +147,15 @@ namespace GameHunter
             foreach (var bird in birds) bird.Update(gameTime);
 
             
-            hunter.Update(gameTime, out Vector2 arrowPosition, out bool flipped );
+            hunter.Update(gameTime, out Vector2 arrowPosition);
 
-           // this.arrowPosition = arrowPosition;
-           // this.arrowFlipped = flipped;
+           this.arrowPosition = arrowPosition;
 
-            arrow.Update(gameTime, arrowPosition, flipped);
-            
+            arrowPos = hunter.Position;
+
+            foreach(var arrows in arrow) arrows.Update(gameTime, arrowPos);
+
+
             world.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             base.Update(gameTime);
@@ -143,7 +171,12 @@ namespace GameHunter
 
             hunter.Draw(gameTime, spriteBatch);
 
+
+            foreach(var arrows in arrow) arrows.Draw(gameTime, spriteBatch);
+
             foreach (var bird in birds) bird.Draw(gameTime, spriteBatch);
+
+
 
             spriteBatch.End();
 
