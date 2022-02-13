@@ -18,10 +18,10 @@ namespace GameHunter
 
 
         private BackgroundBuilder background;
-
-
-        //        private BirdSprite[] birds;
         private List<BirdSprite> birds;
+        private HunterSprite hunter;
+
+
         private World world;
 
 
@@ -42,6 +42,7 @@ namespace GameHunter
 
         protected override void Initialize()
         {
+            System.Random rand = new System.Random();
 
             background = new BackgroundBuilder();
 
@@ -67,7 +68,7 @@ namespace GameHunter
                 edge.SetRestitution(1.0f);
             }
 
-            //Spawn 5 Birds
+            //Spawn Birds & Bodies
             System.Random random = new System.Random();
             birds = new List<BirdSprite>();
             for (int i = 0; i < 1; i++)
@@ -91,6 +92,10 @@ namespace GameHunter
                 birds.Add(new BirdSprite(radius, body));
             }
 
+            //Spawn hunter
+            hunter = new HunterSprite(new Vector2((float)rand.NextDouble() * GraphicsDevice.Viewport.Width, (float)rand.NextDouble() * GraphicsDevice.Viewport.Height));
+
+
             base.Initialize();
         }
 
@@ -98,8 +103,8 @@ namespace GameHunter
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             background.LoadContent(Content);
-            
             foreach (var birds in birds) birds.LoadContent(Content);
+            hunter.LoadContent(Content);
 
         }
 
@@ -109,6 +114,8 @@ namespace GameHunter
                 Exit();
 
             foreach (var bird in birds) bird.Update(gameTime);
+
+            hunter.Update(gameTime);
 
             world.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
 
@@ -123,9 +130,10 @@ namespace GameHunter
             spriteBatch.Begin();
             background.Draw(gameTime, spriteBatch);
 
+            hunter.Draw(gameTime, spriteBatch);
+
             foreach (var bird in birds) bird.Draw(gameTime, spriteBatch);
 
-            // world.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
             spriteBatch.End();
 
             base.Draw(gameTime);

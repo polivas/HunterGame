@@ -39,7 +39,7 @@ namespace GameHunter
             //tree-1
             spriteBatch.Draw(texture, new Vector2(50, 250), new Rectangle(64, 0, 32, 32), Color.White);
             spriteBatch.Draw(texture, new Vector2(350, 400), new Rectangle(64, 0, 32, 32), Color.White);
-
+            spriteBatch.Draw(texture, new Vector2(35, 3250), new Rectangle(64, 0, 32, 32), Color.White);
 
             //tree-2
             spriteBatch.Draw(texture, new Vector2(350, 165), new Rectangle(128, 0, 32, 64), Color.White);
@@ -49,6 +49,13 @@ namespace GameHunter
 
             //Log
             spriteBatch.Draw(texture, new Vector2(150, 60), new Rectangle(0, 32, 16, 16), Color.White);
+            spriteBatch.Draw(texture, new Vector2(285, 345), new Rectangle(32, 32, 16, 16), Color.White);
+            spriteBatch.Draw(texture, new Vector2(15, 395), new Rectangle(64,16, 16, 16), Color.White);
+
+            //Bushes
+            spriteBatch.Draw(texture, new Vector2(250, 160), new Rectangle(0, 96, 16, 16), Color.White);
+            spriteBatch.Draw(texture, new Vector2(385, 245), new Rectangle(32, 96, 16, 16), Color.White);
+            spriteBatch.Draw(texture, new Vector2(115, 295), new Rectangle(16, 112, 16, 16), Color.White);
         }
     }
 }
