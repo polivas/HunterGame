@@ -22,9 +22,7 @@ namespace GameHunter
         //private ArrowSprite arrow;
         private List<ArrowSprite> arrow;
 
-        //Arrow stuff
-         private Vector2 arrowPosition;
-         private bool arrowFlipped;
+
 
         private Vector2 arrowPos;
 
@@ -147,13 +145,10 @@ namespace GameHunter
             foreach (var bird in birds) bird.Update(gameTime);
 
             
-            hunter.Update(gameTime, out Vector2 arrowPosition);
+            hunter.Update(gameTime);
 
-           this.arrowPosition = arrowPosition;
 
-            arrowPos = hunter.Position;
-
-            foreach(var arrows in arrow) arrows.Update(gameTime, arrowPos);
+            foreach(var arrows in arrow) arrows.Update(gameTime, (hunter.Position - (new Vector2(0, 35))));
 
 
             world.Step((float)gameTime.ElapsedGameTime.TotalSeconds);

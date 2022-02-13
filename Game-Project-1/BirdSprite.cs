@@ -24,6 +24,7 @@ namespace GameHunter
         private double animationTimer;
         private short animationFrame = 0;
 
+        private bool dead;
 
         float radius;
         float scale;
@@ -68,8 +69,8 @@ namespace GameHunter
         /// </summary>
         /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
-        {
-            Colliding = false;
+        {          
+           Colliding = false;
         }
 
 
@@ -80,33 +81,50 @@ namespace GameHunter
         /// <param name="spriteBatch">The spritebatch to draw with</param>
         public void Draw(GameTime gametime, SpriteBatch spriteBatch)
         {
+
+
             //Check if collides
              Color color = (Colliding) ? Color.Green : Color.White;
 
-            //Update animation Timer
-            animationTimer += gametime.ElapsedGameTime.TotalSeconds;
-
-            //Update animation frame
-            if (animationTimer > 0.3)
+            if (Colliding == false && dead == false)
             {
-                animationFrame++;
-                if (animationFrame > 2) animationFrame = 0;
-                animationTimer -= 0.3;
+                //Update animation Timer
+                animationTimer += gametime.ElapsedGameTime.TotalSeconds;
+
+                //Update animation frame
+                if (animationTimer > 0.3)
+                {
+                    animationFrame++;
+                    if (animationFrame > 2) animationFrame = 0;
+                    animationTimer -= 0.3;
+                }
+
+                //Draw the sprite
+                var source = new Rectangle(animationFrame * 32, (int)Direction * 32, 32, 32);
+
+                // spriteBatch.Draw(texture, Position, source, Color.White);
+                spriteBatch.Draw(texture, body.Position, source, color, 0f, origin, scale, SpriteEffects.None, 0);
+
             }
-
-            //Draw the sprite
-            var source = new Rectangle(animationFrame * 32, (int)Direction * 32, 32, 32);
-
-            // spriteBatch.Draw(texture, Position, source, Color.White);
-            spriteBatch.Draw(texture, body.Position, source, color, 0f , origin, scale, SpriteEffects.None, 0);      
         }
 
 
         //Is checking if it has collided with an object
         bool CollisionHandler(Fixture fixture, Fixture other, Contact contact)
         {
-            Colliding = true;
-            return true;
+            if (other.Body.BodyType == BodyType.Dynamic)
+            {
+                Colliding = true;
+                dead = true;
+                return true;
+            }
+            if(other.Body.BodyType == BodyType.Static)
+            {
+                Colliding = true;
+                return true;
+            }
+
+            return false;
         }
     }
 }

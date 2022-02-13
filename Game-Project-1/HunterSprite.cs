@@ -75,7 +75,7 @@ namespace GameHunter
         /// Updates the hunter sprite
         /// </summary>
         /// <param name="gameTime"></param>
-        public void Update(GameTime gameTime, out Vector2 position)
+        public void Update(GameTime gameTime)
         {
              
             keyboardState = Keyboard.GetState();
@@ -119,9 +119,6 @@ namespace GameHunter
                 //arrowPosition = this.Position;
                 // arrowSprite.ShootArrow(arrowPosition, flipped);
             }
-
-            
-            position = this.Position;
         }
 
 
