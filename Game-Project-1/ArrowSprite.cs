@@ -66,11 +66,15 @@ namespace GameHunter
             if (keyboardState.IsKeyDown(Keys.Right)) flipped = false;
             if (keyboardState.IsKeyDown(Keys.Left)) flipped = true;
 
+            this.Position = position;
+            this.body.Position = position;
+
             if (keyboardState.IsKeyDown(Keys.Space))
             {
                 this.body.LinearVelocity = new Vector2(0, 5);
                 this.body.AngularVelocity = (float) 1;
                 shot = true;
+                
             }
         }
 
@@ -91,14 +95,15 @@ namespace GameHunter
             if (animationTimer > 0.3) animationTimer -= 0.3;
 
             var source = new Rectangle(animationFrame * 32, 0 , 32, 32);
+
             SpriteEffects spriteEffects = (flipped) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
             if(shot == true)
             {
-                spriteBatch.Draw(texture, Position, source, color, 0f, origin, scale, spriteEffects, 0);
+                spriteBatch.Draw(texture, this.Position, source, color, 0f, origin, scale, spriteEffects, 0);
             }
 
-            spriteBatch.Draw(texture, Position, source, color, 0f, origin, scale, spriteEffects, 0);
+            spriteBatch.Draw(texture, this.Position, source, color, 0f, origin, scale, spriteEffects, 0);
         }
 
         /// <summary>
