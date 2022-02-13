@@ -28,7 +28,7 @@ namespace GameHunter
     {
         private KeyboardState keyboardState;
 
-        private Texture2D texture; //Idle,Gesture,Walk,Attack, - 10 frames per
+        private Texture2D texture; 
         private Texture2D textureUp;
         private Texture2D textureDown;
 
@@ -74,17 +74,20 @@ namespace GameHunter
         {
 
             keyboardState = Keyboard.GetState();
+            pressing = false;
 
             if (keyboardState.IsKeyDown(Keys.Up) || keyboardState.IsKeyDown(Keys.W))
             {
                 Position += new Vector2(0, -1);
                 TextureMode = TextureMode.Up; //4
+                pressing = true;
             }
 
             if (keyboardState.IsKeyDown(Keys.Down) || keyboardState.IsKeyDown(Keys.S))
             {
                 Position += new Vector2(0, 1);
                 TextureMode = TextureMode.Down;//5
+                pressing = true;
             }
 
             if (keyboardState.IsKeyDown(Keys.Left) || keyboardState.IsKeyDown(Keys.A))
@@ -92,6 +95,7 @@ namespace GameHunter
                 Position += new Vector2(-1, 0);
                 TextureMode = TextureMode.Left;
                 flipped = true;
+                pressing = true;
             }
 
             if (keyboardState.IsKeyDown(Keys.Right) || keyboardState.IsKeyDown(Keys.D))
@@ -99,11 +103,13 @@ namespace GameHunter
                 Position += new Vector2(1, 0);
                 TextureMode = TextureMode.Right;
                 flipped = false;
+                pressing = true;
             }
 
             if (keyboardState.IsKeyDown(Keys.Space) )
             {
                 TextureMode = TextureMode.Shoot;
+                pressing = true;
             }
             
 
@@ -138,23 +144,27 @@ namespace GameHunter
 
             Texture2D currTexture = texture;
 
-/*
-            if (TextureMode == TextureMode.Down)
-            { 
-                spriteBatch.Draw(textureDown, Position, source, Color.White, 0f, new Vector2(32, 32), 1.25f, SpriteEffects.None, 0);
-            }
-            if (TextureMode == TextureMode.Up)
+            
+           if (TextureMode == TextureMode.Down)
             {
-                spriteBatch.Draw(textureUp, Position, source, Color.White, 0f, new Vector2(32, 32), 1.25f, SpriteEffects.None, 0);
+                currTexture = textureDown;
+                source = new Rectangle(animationFrame * 32, 0 * 32, 32, 32);
+                spriteBatch.Draw(currTexture, Position, source, Color.White, 0f, new Vector2(32, 32), 1.25f, SpriteEffects.None, 0);
+             }
+           if (TextureMode == TextureMode.Up)
+           {
+                currTexture = textureUp;
+                source = new Rectangle(animationFrame * 32, 0 * 32, 32, 32);
+                spriteBatch.Draw(currTexture, Position, source, Color.White, 0f, new Vector2(32, 32), 1.25f, SpriteEffects.None, 0);
             }
-            else if (!(TextureMode == TextureMode.Up) && !(TextureMode == TextureMode.Down)) spriteBatch.Draw(texture, Position, source, Color.White, 0f, new Vector2(32, 32), 1.25f, spriteEffects, 0);
-*/
-            if (TextureMode == TextureMode.Down) currTexture = textureDown;
-            else if(TextureMode == TextureMode.Up) currTexture = textureUp;
-            if (!(TextureMode == TextureMode.Up) && !(TextureMode == TextureMode.Down)) currTexture = texture;
-
-            spriteBatch.Draw(currTexture, Position, source, Color.White, 0f, new Vector2(32, 32), 1.25f, spriteEffects, 0);
-
+           if (!(TextureMode == TextureMode.Up) && !(TextureMode == TextureMode.Down)) spriteBatch.Draw(texture, Position, source, Color.White, 0f, new Vector2(32, 32), 1.25f, spriteEffects, 0);
+           if(!pressing)
+            {
+                currTexture = texture;
+                source = new Rectangle(animationFrame * 32, 0 * 32, 32, 32);
+                spriteBatch.Draw(texture, Position, source, Color.White, 0f, new Vector2(32, 32), 1.25f, spriteEffects, 0);
+            }
+           
         }
 
     }
