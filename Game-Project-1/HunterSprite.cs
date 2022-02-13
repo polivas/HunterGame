@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
-
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
-
 using tainicom.Aether.Physics2D.Dynamics;
 using tainicom.Aether.Physics2D.Dynamics.Contacts;
 
@@ -77,9 +75,9 @@ namespace GameHunter
         /// Updates the hunter sprite
         /// </summary>
         /// <param name="gameTime"></param>
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, out Vector2 position, out bool flipped)
         {
-
+            flipped = false; //CHECK
             keyboardState = Keyboard.GetState();
             pressing = false;
 
@@ -117,11 +115,12 @@ namespace GameHunter
             {
                 TextureMode = TextureMode.Shoot;
                 pressing = true;
-                arrowPosition = this.Position;
-                arrowSprite.ShootArrow(arrowPosition, flipped);
+               
+                //arrowPosition = this.Position;
+                // arrowSprite.ShootArrow(arrowPosition, flipped);
             }
-            
 
+            position = this.Position;
         }
 
 
@@ -155,28 +154,33 @@ namespace GameHunter
             if (TextureMode == TextureMode.Shoot)
             {
                 
-                source = new Rectangle(32, 32, 32, 32);
-                spriteBatch.Draw(currTexture, arrowPosition, source, Color.White, 0f, new Vector2(32, 32), 1.25f, spriteEffects, 0);
-            } 
-            if (TextureMode == TextureMode.Down)
+                
+                spriteBatch.Draw(texture, Position, source, Color.White, 0f, new Vector2(32, 32), 1.5f, spriteEffects, 0);
+                // source = new Rectangle(32, 32, 32, 32);
+                // spriteBatch.Draw(currTexture, arrowPosition, source, Color.White, 0f, new Vector2(32, 32), 1.25f, spriteEffects, 0);
+            }
+
+
+            if(TextureMode == TextureMode.Down && pressing)
             {
                 currTexture = textureDown;
                 source = new Rectangle(animationFrame * 32, 0 * 32, 32, 32);
-                spriteBatch.Draw(currTexture, Position, source, Color.White, 0f, new Vector2(32, 32), 1.25f, SpriteEffects.None, 0);
+                spriteBatch.Draw(currTexture, Position, source, Color.White, 0f, new Vector2(32, 32), 1.5f, SpriteEffects.None, 0);
              }
-           if (TextureMode == TextureMode.Up)
+           if (TextureMode == TextureMode.Up && pressing)
            {
                 currTexture = textureUp;
                 source = new Rectangle(animationFrame * 32, 0 * 32, 32, 32);
-                spriteBatch.Draw(currTexture, Position, source, Color.White, 0f, new Vector2(32, 32), 1.25f, SpriteEffects.None, 0);
+                spriteBatch.Draw(currTexture, Position, source, Color.White, 0f, new Vector2(32, 32), 1.5f, SpriteEffects.None, 0);
             }
-           if (!(TextureMode == TextureMode.Up) && !(TextureMode == TextureMode.Down)) spriteBatch.Draw(texture, Position, source, Color.White, 0f, new Vector2(32, 32), 1.25f, spriteEffects, 0);
-           if(!pressing)
+           if (!(TextureMode == TextureMode.Up) && !(TextureMode == TextureMode.Down)) spriteBatch.Draw(texture, Position, source, Color.White, 0f, new Vector2(32, 32), 1.5f, spriteEffects, 0);          
+            if(!pressing)
             {
                 currTexture = texture;
                 source = new Rectangle(animationFrame * 32, 0 * 32, 32, 32);
-                spriteBatch.Draw(texture, Position, source, Color.White, 0f, new Vector2(32, 32), 1.25f, spriteEffects, 0);
+                spriteBatch.Draw(currTexture, Position, source, Color.White, 0f, new Vector2(32, 32), 1.5f, spriteEffects, 0);
             }
+           
            
         }
 

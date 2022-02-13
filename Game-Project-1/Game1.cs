@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
 using tainicom.Aether.Physics2D.Dynamics;
 using tainicom.Aether.Physics2D.Collision;
 using tainicom.Aether.Physics2D.Common;
@@ -20,7 +19,11 @@ namespace GameHunter
         private BackgroundBuilder background;
         private List<BirdSprite> birds;
         private HunterSprite hunter;
+        private ArrowSprite arrow;
 
+        //Arrow stuff
+       // private Vector2 arrowPosition;
+        //private bool arrowFlipped;
 
         private World world;
 
@@ -116,9 +119,15 @@ namespace GameHunter
                 Exit();
 
             foreach (var bird in birds) bird.Update(gameTime);
-            hunter.Update(gameTime);
 
+            
+            hunter.Update(gameTime, out Vector2 arrowPosition, out bool flipped );
 
+           // this.arrowPosition = arrowPosition;
+           // this.arrowFlipped = flipped;
+
+            arrow.Update(gameTime, arrowPosition, flipped);
+            
             world.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             base.Update(gameTime);
