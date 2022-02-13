@@ -32,6 +32,8 @@ namespace GameHunter
         public bool flipped;
         public Vector2 Position;
 
+        private Vector2 flipPos = new Vector2(50, 0);
+
         public bool Colliding { get; protected set; }
 
         public ArrowSprite(Vector2 position, Body body)
@@ -60,28 +62,30 @@ namespace GameHunter
         /// Updates the arrow shot pattern
         /// </summary>
         /// <param name="gameTime"></param>
-        public void Update(GameTime gameTime, Vector2 position)
+        public void Update(GameTime gameTime, Vector2 position ,bool hunterFlipped)
         {
             Colliding = false;
             if (keyboardState.IsKeyDown(Keys.Right)) flipped = false;
             if (keyboardState.IsKeyDown(Keys.Left)) flipped = true;
 
+            this.flipped = hunterFlipped;
             this.Position = position;
-            this.body.Position = position;
 
-            if (keyboardState.IsKeyDown(Keys.Space))
+
+            if (flipped == true)
             {
-                this.body.LinearVelocity = new Vector2(0, 5);
-                this.body.AngularVelocity = (float) 1;
-                shot = true;
-                
+                this.body.Position = position - flipPos;
             }
+            else
+            {
+                this.body.Position = position;
+            }
+
+
         }
 
         public void Draw(GameTime gametime, SpriteBatch spriteBatch)
         {
-            //Check if collides
-            Color color = (Colliding) ? Color.Green : Color.White;
 
             //Update animation Timer
             animationTimer += gametime.ElapsedGameTime.TotalSeconds;
@@ -98,12 +102,18 @@ namespace GameHunter
 
             SpriteEffects spriteEffects = (flipped) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-            if(shot == true)
+            
+
+            if(flipped == true)
             {
-                spriteBatch.Draw(texture, this.Position, source, color, 0f, origin, scale, spriteEffects, 0);
+             spriteBatch.Draw(texture, this.Position - flipPos, source, Color.White, 0f, origin, scale, spriteEffects, 0);
+            }
+            else
+            {
+            spriteBatch.Draw(texture, this.Position, source, Color.White, 0f, origin, scale, spriteEffects, 0);
             }
 
-            spriteBatch.Draw(texture, this.Position, source, color, 0f, origin, scale, spriteEffects, 0);
+
         }
 
         /// <summary>

@@ -148,7 +148,7 @@ namespace GameHunter
             hunter.Update(gameTime);
 
 
-            foreach(var arrows in arrow) arrows.Update(gameTime, (hunter.Position - (new Vector2(0, 35))));
+            foreach(var arrows in arrow) arrows.Update(gameTime, (hunter.Position - (new Vector2(10, 35))), hunter.Flipped);
 
 
             world.Step((float)gameTime.ElapsedGameTime.TotalSeconds);

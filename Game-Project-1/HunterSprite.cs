@@ -24,12 +24,8 @@ namespace GameHunter
 
 
     public class HunterSprite
-    {
-        
-
+    {       
         private KeyboardState keyboardState;
-
-        private Vector2 arrowPosition;
 
         private Texture2D texture; 
         private Texture2D textureUp;
@@ -37,7 +33,7 @@ namespace GameHunter
         private Texture2D arrowTexture;
 
         //Animation Stuff
-        private bool flipped;
+        public  bool Flipped;
         private bool pressing = false;
         private double animationTimer;
         private short animationFrame = 0;
@@ -99,7 +95,7 @@ namespace GameHunter
             {
                 Position += new Vector2(-1, 0);
                 TextureMode = TextureMode.Left;
-                flipped = true;
+                Flipped = true;
                 pressing = true;
             }
 
@@ -107,10 +103,11 @@ namespace GameHunter
             {
                 Position += new Vector2(1, 0);
                 TextureMode = TextureMode.Right;
-                flipped = false;
+                Flipped = false;
                 pressing = true;
             }
 
+            /*
             if (keyboardState.IsKeyDown(Keys.Space) )
             {
                 TextureMode = TextureMode.Shoot;
@@ -118,7 +115,7 @@ namespace GameHunter
                
                 //arrowPosition = this.Position;
                 // arrowSprite.ShootArrow(arrowPosition, flipped);
-            }
+            }*/
         }
 
 
@@ -146,9 +143,11 @@ namespace GameHunter
            
             var source = new Rectangle(animationFrame * 32, (int)TextureMode * 32, 32, 32);
 
-            SpriteEffects spriteEffects = (flipped) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            SpriteEffects spriteEffects = (Flipped) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
             Texture2D currTexture = texture;
 
+            /*
             if (TextureMode == TextureMode.Shoot)
             {
                 
@@ -157,7 +156,7 @@ namespace GameHunter
                 // source = new Rectangle(32, 32, 32, 32);
                 // spriteBatch.Draw(currTexture, arrowPosition, source, Color.White, 0f, new Vector2(32, 32), 1.25f, spriteEffects, 0);
             }
-
+            */
 
             if(TextureMode == TextureMode.Down && pressing)
             {
