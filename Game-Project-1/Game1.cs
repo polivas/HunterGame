@@ -31,7 +31,7 @@ namespace GameHunter
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            IsMouseVisible = false;
+            IsMouseVisible = true;
 
             //Grabbing Game constants
             graphics.PreferredBackBufferWidth = Constants.GAME_WIDTH;
@@ -71,9 +71,9 @@ namespace GameHunter
             //Spawn Birds & Bodies
             System.Random random = new System.Random();
             birds = new List<BirdSprite>();
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < 5; i++)
             {
-                var radius = random.Next(1,3);
+                var radius = random.Next(1,5);
                 var position = new Vector2(
                     random.Next(radius, Constants.GAME_WIDTH - radius),
                     random.Next(radius, Constants.GAME_HEIGHT - radius)
@@ -83,8 +83,8 @@ namespace GameHunter
                 var body = world.CreateCircle(radius, 1, position, BodyType.Dynamic);
 
                 body.LinearVelocity = new Vector2(
-                    random.Next(-10, 10),
-                    random.Next(-10, 10)
+                    random.Next(-20, 20),
+                    random.Next(-20, 20)
                     );
 
                 body.SetRestitution(1);
@@ -103,7 +103,9 @@ namespace GameHunter
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             background.LoadContent(Content);
+
             foreach (var birds in birds) birds.LoadContent(Content);
+
             hunter.LoadContent(Content);
 
         }
@@ -114,8 +116,8 @@ namespace GameHunter
                 Exit();
 
             foreach (var bird in birds) bird.Update(gameTime);
-
             hunter.Update(gameTime);
+
 
             world.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
 

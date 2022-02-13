@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using tainicom.Aether.Physics2D.Dynamics;
 using tainicom.Aether.Physics2D.Dynamics.Contacts;
 
+
 namespace GameHunter
 {
 
@@ -26,11 +27,16 @@ namespace GameHunter
 
     public class HunterSprite
     {
+        
+
         private KeyboardState keyboardState;
+
+        private Vector2 arrowPosition;
 
         private Texture2D texture; 
         private Texture2D textureUp;
         private Texture2D textureDown;
+        private Texture2D arrowTexture;
 
         //Animation Stuff
         private bool flipped;
@@ -63,6 +69,7 @@ namespace GameHunter
             texture = content.Load<Texture2D>("ranger");
             textureUp = content.Load<Texture2D>("Ranger Walk Up");
             textureDown = content.Load<Texture2D>("Walk Down Ranger");
+            arrowTexture = content.Load<Texture2D>("Arrow");
         }
 
 
@@ -110,6 +117,8 @@ namespace GameHunter
             {
                 TextureMode = TextureMode.Shoot;
                 pressing = true;
+                arrowPosition = this.Position;
+                arrowSprite.ShootArrow(arrowPosition, flipped);
             }
             
 
@@ -141,11 +150,15 @@ namespace GameHunter
             var source = new Rectangle(animationFrame * 32, (int)TextureMode * 32, 32, 32);
 
             SpriteEffects spriteEffects = (flipped) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-
             Texture2D currTexture = texture;
 
-            
-           if (TextureMode == TextureMode.Down)
+            if (TextureMode == TextureMode.Shoot)
+            {
+                
+                source = new Rectangle(32, 32, 32, 32);
+                spriteBatch.Draw(currTexture, arrowPosition, source, Color.White, 0f, new Vector2(32, 32), 1.25f, spriteEffects, 0);
+            } 
+            if (TextureMode == TextureMode.Down)
             {
                 currTexture = textureDown;
                 source = new Rectangle(animationFrame * 32, 0 * 32, 32, 32);

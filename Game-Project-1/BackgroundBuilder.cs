@@ -47,6 +47,10 @@ namespace GameHunter
             spriteBatch.Draw(texture, new Vector2(89, 248), new Rectangle(128, 0, 32, 64), Color.White);
             spriteBatch.Draw(texture, new Vector2(623, 295), new Rectangle(128, 0, 32, 64), Color.White);
 
+            spriteBatch.Draw(texture, new Vector2(165, 350), new Rectangle(128, 0, 32, 64), Color.White);
+            spriteBatch.Draw(texture, new Vector2(365, 56), new Rectangle(128, 0, 32, 64), Color.White);
+            spriteBatch.Draw(texture, new Vector2(248, 89), new Rectangle(128, 0, 32, 64), Color.White);
+            spriteBatch.Draw(texture, new Vector2( 295, 623), new Rectangle(128, 0, 32, 64), Color.White);
             //Log
             spriteBatch.Draw(texture, new Vector2(150, 60), new Rectangle(0, 32, 16, 16), Color.White);
             spriteBatch.Draw(texture, new Vector2(285, 345), new Rectangle(32, 32, 16, 16), Color.White);

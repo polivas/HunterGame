@@ -23,13 +23,12 @@ namespace GameHunter
     public class BirdSprite
     {
         private Texture2D texture;
-
-        private double directionTimer;
-
         private double animationTimer;
-
         private short animationFrame = 0;
 
+
+        float radius;
+        float scale;
         Vector2 origin;
         Body body;
 
@@ -44,13 +43,17 @@ namespace GameHunter
         public Vector2 Position;
 
         /// <summary>
-        /// A boolean indicating if this birds is colliding with an object
+        /// A boolean indicating if this birds is colliding with an object, if true means bird is dead
         /// </summary>
         public bool Colliding { get; protected set; }
 
         public BirdSprite(float radius , Body body)
         {
-          //  this.body.OnCollision += CollisionHandler;
+            this.body = body;
+            this.radius = radius;
+            scale = 1;
+            origin = new Vector2(5, 5);
+            this.body.OnCollision += CollisionHandler;
         }
 
         /// <summary>
@@ -68,9 +71,7 @@ namespace GameHunter
         /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
-            //Clear collision
             Colliding = false;
-
         }
 
 
@@ -82,7 +83,7 @@ namespace GameHunter
         public void Draw(GameTime gametime, SpriteBatch spriteBatch)
         {
             //Check if collides
-           // Color color = (Colliding) ? Color.Green : Color.White;
+             Color color = (Colliding) ? Color.Green : Color.White;
 
             //Update animation Timer
             animationTimer += gametime.ElapsedGameTime.TotalSeconds;
@@ -98,11 +99,12 @@ namespace GameHunter
             //Draw the sprite
             var source = new Rectangle(animationFrame * 32, (int)Direction * 32, 32, 32);
 
-            spriteBatch.Draw(texture, Position, source, Color.White);
+            // spriteBatch.Draw(texture, Position, source, Color.White);
+            spriteBatch.Draw(texture, body.Position, source, color, 0f , origin, scale, SpriteEffects.None, 0);      
         }
 
 
-        //Is checking if it has collided wiht an object
+        //Is checking if it has collided with an object
         bool CollisionHandler(Fixture fixture, Fixture other, Contact contact)
         {
             Colliding = true;
