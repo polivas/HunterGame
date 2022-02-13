@@ -96,6 +96,16 @@ namespace GameHunter
                     animationTimer -= 0.3;
                 }
 
+                if(this.body.LinearVelocity.X > 0 )
+                {
+                    Direction = BirdDirection.Right;
+                }
+                if (this.body.LinearVelocity.X < 0  )
+                {
+                    Direction = BirdDirection.Left;
+                }
+
+
                 //Draw the sprite
                 var source = new Rectangle(animationFrame * 32, (int)Direction * 32, 32, 32);
 

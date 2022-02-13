@@ -70,7 +70,7 @@ namespace GameHunter
             //Spawn Birds/Bodies
             System.Random random = new System.Random();
             birds = new List<BirdSprite>();
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 5; i++)
             {
                 var radius = random.Next(1, 5);
                 var position = new Vector2(
